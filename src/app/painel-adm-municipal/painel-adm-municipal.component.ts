@@ -67,7 +67,7 @@ export class PainelAdmMunicipalComponent extends OnDestroyMixin implements OnIni
   downloading = false;
   graphVisible = false;
   loading = false;
-
+  totalQuadra: number = 0;
   totalA1: number = 0;
   totalA2: number = 0;
   totalB: number = 0;
@@ -131,7 +131,16 @@ export class PainelAdmMunicipalComponent extends OnDestroyMixin implements OnIni
     );
   }
 
+
+
   calculateTotals() {
+    const totalQuadra = new Set();
+
+
+    this.indiceDocumentos.forEach((dado) => {
+      totalQuadra.add(dado.quadra);
+    });
+
     this.totalA1 = this.indiceDocumentos.reduce((sum, dado) => sum + dado.qtdA1, 0);
     this.totalA2 = this.indiceDocumentos.reduce((sum, dado) => sum + dado.qtdA2, 0);
     this.totalB = this.indiceDocumentos.reduce((sum, dado) => sum + dado.qtdB, 0);
@@ -146,7 +155,7 @@ export class PainelAdmMunicipalComponent extends OnDestroyMixin implements OnIni
     this.totalTcpl = this.indiceDocumentos.reduce((sum, dado) => sum + dado.qtdTcpl, 0);
     this.totalTerrenoBaldio = this.indiceDocumentos.reduce((sum, dado) => sum + dado.qtdTerrenoBaldio, 0);
     this.totalOutrTpImovel = this.indiceDocumentos.reduce((sum, dado) => sum + dado.qtdOutrTpImovel, 0);
-    this.totalIfp = this.indiceDocumentos.reduce((sum, dado) => sum + dado.ifp, 0);
+    this.totalIfp = (this.totalTvz !== 0) ? (this.totalTcpl / this.totalTvz) * 100 : 0;
     this.totalNotificados = this.dadosPacientes.reduce((sum, dado) => sum + dado.notificados, 0);
     this.totalSomaCasosPositivos = this.dadosPacientes.reduce((sum, dado) => sum + dado.somaCasosPositivos, 0);
     this.totalSomaCasosEstrangeiros = this.dadosPacientes.reduce((sum, dado) => sum + dado.somaCasosEstrangeiros, 0);
